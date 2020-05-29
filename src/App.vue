@@ -1,28 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: "App",
+  data() {
+    return {};
+  },
+  methods: {
+    test() {
+      if (this.text == "注册") {
+        this.$router.push("/register");
+      } else {
+        this.$router.push("/login");
+      }
+    }
+  },
+  created() {
+    let user = localStorage.getItem("user");
+    if (!user) {
+      this.$message("请登录")
+      this.$router.push("/login");
+    } 
   }
-}
+};
 </script>
 
 <style>
+html,
+body {
+  height: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
 }
 </style>
