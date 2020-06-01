@@ -15,15 +15,25 @@ export default {
   props: ["code"],
   data() {
     return {
-      fabricCode: "",
+      fabricCode: this.code,
       basicList: []
-    }
+    };
   },
   watch: {
     code: function(val) {
       this.basicList = [];
       this.fabricCode = val;
-      let url = `/fabric/info/${val}/basic`;
+      this.getDataList();
+    }
+  },
+  created() {
+    if (this.fabricCode) {
+      this.getDataList();
+    }
+  },
+  methods: {
+    getDataList() {
+      let url = `/fabric/info/${this.fabricCode}/basic`;
       this.$get(url)
         .then(res => {
           this.basicList = res.data.fabric.IT_BASIC;

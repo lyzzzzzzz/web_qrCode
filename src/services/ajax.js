@@ -27,7 +27,7 @@ axios.interceptors.response.use(response => {
       code: data.code,
     });
   }
-  if (data.code === 40009) {
+  if (data.code === 40009&&data.code ===40010) {
     this.$message(data.msg)
     isAuthenticated = false
   }
@@ -36,7 +36,7 @@ axios.interceptors.response.use(response => {
     "网络错误"
   );
 }, err => {
-  console.log("err:", err);
+  console.log("http err:", err);
   let isCancel = axios.isCancel(err);
   if (isCancel) {
     return new Promise(() => { });

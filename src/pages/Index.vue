@@ -26,7 +26,7 @@
               :value="item.fabricCode"
             ></el-option>
           </el-select>
-          <el-button @click="getCodeMsg">搜索</el-button>
+          <!-- <el-button @click="getCodeMsg">搜索</el-button> -->
         </div>
 
         <div v-if="user" class="config">
@@ -102,24 +102,24 @@ export default {
   },
   methods: {
     clickItem(index) {
+      if (!this.fabricCode) {
+        this.$message("请选择布号");
+      }
       this.componentItem = this.menuList[index - 1].text;
     },
     remoteMethod(value) {
       if (value) {
         let url = "/fabric/search/" + value;
+        this.loading = true;
         this.$get(url)
           .then(res => {
             this.options = res.data.list;
+            this.loading = false;
           })
           .catch(err => {
             this.$message.error(err);
+            this.loading = false;
           });
-      }
-    },
-    getCodeMsg() {
-      if (!this.fabricCode) {
-        this.$message.error("请选择布号");
-        return;
       }
     }
   },
