@@ -35,7 +35,6 @@ export default {
     }
   },
   created() {
-    console.log("fabricCode:", this.fabricCode);
     if (this.fabricCode) {
       this.getDataList(this.fabricCode);
     }
@@ -54,7 +53,6 @@ export default {
             }
           });
           this.priceList = priceList;
-          console.log("new list:", priceList);
         })
         .catch(err => {
           this.$message.error(err);
