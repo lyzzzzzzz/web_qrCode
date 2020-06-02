@@ -5,7 +5,7 @@
     </div>
 
     <div class="contnent">
-      <div class="topBar">
+      <div class="topBar" v-if="topBarShow">
         <div style="width:20%;"></div>
         <div class="middle">
           <i class="el-icon-user-solid"></i>
@@ -44,8 +44,8 @@
         </div>
       </div>
       <div class="componentStyle">
-        <keep-alive>
-          <component :is="componentItem" :code="fabricCode" style="height:100%"></component>
+        <keep-alive exclude="Statistics">
+          <component :is="componentItem" :code="fabricCode" style="height:100%" ></component>
         </keep-alive>
       </div>
     </div>
@@ -57,13 +57,15 @@ import Basic from "../components/Basic";
 import Price from "../components/Price";
 import Prodution from "../components/Prodution";
 import Cloth from "../components/Cloth";
+import Statistics from "../components/Statistics";
 export default {
   components: {
     myMenu,
     Basic,
     Price,
     Prodution,
-    Cloth
+    Cloth,
+    Statistics
   },
   data() {
     return {
@@ -73,6 +75,7 @@ export default {
       call: "",
       accout: "",
       componentItem: "Basic",
+      keepShow: true,
       menuList: [
         {
           id: "1",
@@ -93,17 +96,30 @@ export default {
           id: "4",
           title: "胚布库存",
           text: "Cloth"
+        },
+        {
+          id: "5",
+          title: "报表查看",
+          text: "Statistics"
         }
       ],
       name: "",
       user: null,
-      basicList: []
+      basicList: [],
+      topBarShow: true
     };
   },
   methods: {
     clickItem(index) {
-      if (!this.fabricCode) {
-        this.$message("请选择布号");
+      // if (!this.fabricCode) {
+      //   this.$message("请选择布号");
+      // }
+      if (index == "5") {
+        this.topBarShow = false;
+        this.keepShow = false;
+      } else {
+        this.topBarShow = true;
+        this.keepShow = true;
       }
       this.componentItem = this.menuList[index - 1].text;
     },
@@ -202,7 +218,7 @@ html {
   flex: 1;
   /* background: #e9eef3; */
   width: 100%;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 }
 .el-icon-user-solid,
 .el-icon-download,

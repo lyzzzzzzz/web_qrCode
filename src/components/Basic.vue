@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import {addReadRecord} from "../common/addReadRecord.js"
 export default {
   name: "Basic",
   props: ["code"],
@@ -37,9 +38,25 @@ export default {
       this.$get(url)
         .then(res => {
           this.basicList = res.data.fabric.IT_BASIC;
+          if (this.basicList.length > 0) {
+            this.addSearchRecord();
+             addReadRecord(this.fabricCode)
+          }
         })
         .catch(err => {
           this.$message.error(err);
+        });
+    },
+    addSearchRecord() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let userId = user.id;
+      let url = `/statistic/addSearch/${userId}/${this.fabricCode}`;
+      this.$post(url)
+        .then(res => {
+          localStorage.setItem("searchHistoryId", res.data.id);
+        })
+        .catch(err => {
+          console.log("addSearchRecord:", err);
         });
     }
   }

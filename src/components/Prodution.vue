@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import { addReadRecord } from "../common/addReadRecord.js";
 export default {
   name: "Prodution",
   props: ["code"],
@@ -51,6 +52,9 @@ export default {
       this.$get(url)
         .then(res => {
           this.productionList = res.data.fabric.IT_FINPRODUCTSTOCK;
+          if (this.productionList.length > 0) {
+            addReadRecord(this.fabricCode);
+          }
         })
         .catch(err => {
           this.$message.error(err);

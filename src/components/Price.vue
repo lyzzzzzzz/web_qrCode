@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import { addReadRecord } from "../common/addReadRecord.js";
 export default {
   name: "Price",
   props: ["code"],
@@ -53,6 +54,9 @@ export default {
             }
           });
           this.priceList = priceList;
+          if (this.priceList.length > 0) {
+            addReadRecord(this.fabricCode);
+          }
         })
         .catch(err => {
           this.$message.error(err);
